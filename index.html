@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sertifikat Yoxlayıcı</title>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+</head>
+<body>
+  <h1>Sertifikat Yoxlayıcı</h1>
+  <input type="text" id="code" placeholder="Sertifikat Kodunu Yaz">
+  <button onclick="verify()">Yoxla</button>
+  <p id="result"></p>
+
+  <script>
+    const supabaseUrl = 'https://wqxkyfaqsdphrdvmijjv.supabase.co';
+    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndxeGt5ZmFxc2RwaHJkdm1pamp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjczNDU5ODksImV4cCI6MjA4MjkyMTk4OX0.aezwZ_Seyg22UrZGjDCLTvfug6OWtqCVk4DGG-Xh_rc';
+    const supabase = supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function verify() {
+      const code = document.getElementById('code').value;
+      const { data, error } = await supabase
+        .from('certificates')
+        .select('*')
+        .eq('code', code)
+        .single();
+      
+      if (error || !data) {
+        document.getElementById('result').innerText = 'Tapılmadı ❌';
+      } else {
+        document.getElementById('result').innerText = ${data.name}, ${data.institute}, ${data.year}, Doğrulandı ✅;
+      }
+    }
+  </script>
+</body>
+</html>
